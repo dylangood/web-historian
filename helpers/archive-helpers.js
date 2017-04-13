@@ -42,14 +42,13 @@ exports.isUrlInList = function(url, callback) {
 };
 
 exports.addUrlToList = function(url, callback) {
-  console.log(url + '\n' + 'the next line');
   fs.appendFile(exports.paths.list, url + '\n', 'utf8', function(err, data) {
     callback(_.includes(dataArray, url));
   });
 };
 
 exports.addUrlToList = function(url, callback) {
-  fs.appendFile(exports.paths.list, url + '\n',  'utf8', function(err) {
+  fs.appendFile(exports.paths.list, url + '\n', 'utf8', function(err) {
     callback();
   });
 };
@@ -61,5 +60,12 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
-
+  _.forEach(urls, function(url) {
+    // 'GET' request to get the web page
+    // JSON.stringify the web page and assign it to data
+    fs.writeFile(exports.paths.archivedSites + '/' + url, '/*data*/', 'utf8', (err) => {
+      if (err) { throw err; }
+      console.log('The file has been saved!');
+    });
+  });
 };
