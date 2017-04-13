@@ -44,12 +44,22 @@ exports.isUrlInList = function(url, callback) {
 exports.addUrlToList = function(url, callback) {
   console.log(url + '\n' + 'the next line');
   fs.appendFile(exports.paths.list, url + '\n', 'utf8', function(err, data) {
-    callback(accomplished);
+    callback(_.includes(dataArray, url));
+  });
+};
+
+exports.addUrlToList = function(url, callback) {
+  fs.appendFile(exports.paths.list, url + '\n',  'utf8', function(err) {
+    callback();
   });
 };
 
 exports.isUrlArchived = function(url, callback) {
+  fs.readdir(exports.paths.archivedSites, 'utf8', function(err, files) {
+    callback(_.includes(files, url));
+  });
 };
 
 exports.downloadUrls = function(urls) {
+
 };
