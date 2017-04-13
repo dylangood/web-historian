@@ -1,27 +1,31 @@
 var path = require('path');
-var archive = require('../helpers/archive-helpers');
+var archiveHelpers = require('../helpers/archive-helpers');
+var httpHelpers = require('./http-helpers');
+var fs = require('fs');
 // require more modules/folders here!
 
-var defaultCorsHeaders = {
-  'access-control-allow-origin': '*',
-  'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'access-control-allow-headers': 'content-type, accept',
-  'access-control-max-age': 10 // Seconds.
-};
-
 exports.handleRequest = function (req, res) {
-  var headers = defaultCorsHeaders;
+  var headers = httpHelpers.headers;
   var method = req.method;
   var url = req.url;
 
-  if ( url === ' ' ) {
-    // isUrlInList(url, callback)
-    if ( method === 'GET' ) {
-
+  if ( method === 'GET' ) {
+    if ( url === '/' ) {
+      console.log('index path: ' + archiveHelpers.paths.siteAssets + '/index.html');
+      res.setHeader('Content-Type', 'text/html;charset=utf-8');
+      res.writeHead(200);
+      fs.readFile( archiveHelpers.paths.siteAssets + '/index.html', function(err, data) {
+        if (err) { console.error(err); }
+        res.end(data);
+      });
     }
+    // send 404 error when asked for a nonexistent file
+    // return the content of a website from the archive
+  } else if ( method === 'POST' ) {
+    // append submitted sites to \'sites.txt\'
   }
 
 
 
-  res.end(archive.paths.list);
+  // res.end(archiveHelpers.paths.list);
 };
