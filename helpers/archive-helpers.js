@@ -46,7 +46,11 @@ exports.addUrlToList = function(url, callback) {
 };
 
 exports.isUrlArchived = function(url, callback) {
+  fs.readdir(exports.paths.archivedSites, 'utf8', function(err, files) {
+    callback(_.includes(files, url));
+  });
 };
 
 exports.downloadUrls = function(urls) {
+   
 };
